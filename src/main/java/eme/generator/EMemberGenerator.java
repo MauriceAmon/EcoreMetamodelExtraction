@@ -153,7 +153,7 @@ public class EMemberGenerator {
      * Factory method for the Ecore representations of any {@link ExtractedDataType}.
      */
     private EStructuralFeature createFieldRepresentation(ExtractedDataType dataType) {
-        if (isEClass(dataType)) { // if type is EClass:
+        if (isEClass(dataType) || isCollection(dataType)) { // if type is EClass or a Java Collection:
             return ecoreFactory.createEReference();
         } else { // if it is EDataType:
             return ecoreFactory.createEAttribute();
