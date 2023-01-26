@@ -159,6 +159,15 @@ public class EMemberGenerator {
             return ecoreFactory.createEAttribute();
         }
     }
+    
+    private Boolean isCollection(ExtractedDataType dataType) {
+    	for(CollectionDeclaration cd : CollectionDeclaration.values()) {
+    		if(dataType.getFullArrayType().equals("java.util." + cd.name())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     /**
      * This method returns the list data type of any {@link ExtractedDataType} which is of type {@link List} when
