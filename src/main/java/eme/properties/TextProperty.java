@@ -11,7 +11,11 @@ public enum TextProperty implements ITextProperty {
     ROOT_NAME("RootContainerName", "ROOT"),
     NESTED_TYPE_PACKAGE("NestedTypePackageSuffix", "InnerTypes"),
     PROJECT_SUFFIX("ProjectSuffix", "Model"),
+    DATATYPES_TO_CONVERT_TO_EREFERENCE("DatatypesToConvertToEReference", "java.util.HashSet, java.util.ArrayList, "
+    		+ "java.util.LinkedList, java.util.TreeSet, java.util.HashMap, java.util.TreeMap"),
+    DATATYPE_INTERFACES_TO_CONVERT_TO_EREFERENCE("DatatypesToConvertToEReference", "java.util.Set, java.util.List"),
     SAVING_STRATEGY("SavingStrategy", "NewProject");
+	
 
     private final String defaultValue;
     private final String key;
