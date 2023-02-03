@@ -1,5 +1,6 @@
 package eme.generator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import eme.model.ExtractedType;
 import eme.model.datatypes.ExtractedDataType;
 import eme.model.datatypes.ExtractedField;
 import eme.model.datatypes.ExtractedParameter;
+import eme.properties.TextProperty;
 
 /**
  * Generator class for Ecore members ({@link EOperation}s and {@link EStructuralFeature}s).
@@ -153,6 +155,7 @@ public class EMemberGenerator {
      * Factory method for the Ecore representations of any {@link ExtractedDataType}.
      */
     private EStructuralFeature createFieldRepresentation(ExtractedDataType dataType) {
+
         if (isEClass(dataType) || isCollection(dataType)) { // if type is EClass or a Java Collection:
             return ecoreFactory.createEReference();
         } else { // if it is EDataType:
@@ -161,11 +164,25 @@ public class EMemberGenerator {
     }
     
     private Boolean isCollection(ExtractedDataType dataType) {
-    	for(CollectionDeclaration cd : CollectionDeclaration.values()) {
-    		if(dataType.getFullArrayType().equals("java.util." + cd.name())) {
-    			return true;
-    		}
+    	String[] dt = TextProperty.DATATYPES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
+    	String[] it = TextProperty.DATATYPE_INTERFACES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
+    	String dName = dataType.getFullArrayType();
+    	if(Arrays.stream(dt).anyMatch(dName::equals)) {
+    		return true;
     	}
+
+		try {
+			Class<?> clazz = Class.forName(dName);
+			Class<?>[] clazzInterfaces = clazz.getInterfaces();
+			for(Class<?> i : clazzInterfaces) {
+				if(Arrays.stream(it).anyMatch(i.getName()::equals))
+					return true;
+	    		}
+			} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			}
     	return false;
     }
 
