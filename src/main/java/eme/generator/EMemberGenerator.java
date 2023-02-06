@@ -167,22 +167,9 @@ public class EMemberGenerator {
     	String[] dt = TextProperty.DATATYPES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
     	String[] it = TextProperty.DATATYPE_INTERFACES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
     	String dName = dataType.getFullArrayType();
-    	if(Arrays.stream(dt).anyMatch(dName::equals)) {
+    	if(Arrays.stream(dt).anyMatch(dName::equals) || dataType.isListType()) {
     		return true;
     	}
-
-		try {
-			Class<?> clazz = Class.forName(dName);
-			Class<?>[] clazzInterfaces = clazz.getInterfaces();
-			for(Class<?> i : clazzInterfaces) {
-				if(Arrays.stream(it).anyMatch(i.getName()::equals))
-					return true;
-	    		}
-			} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			}
     	return false;
     }
 
