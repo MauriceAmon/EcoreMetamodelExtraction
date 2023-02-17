@@ -65,6 +65,8 @@ public class EClassifierGenerator {
             memberGenerator.addFields(extractedType, eClass); // add attributes
             memberGenerator.addOperations(extractedType, eClass); // add methods
             addSuperInterfaces(extractedType, eClass); // IMPORTANT: needs to be called after type parameters are built
+            System.out.println(eClass.getName());
+            System.out.println(eClass.getEAllStructuralFeatures());
         }
         externalTypes.sort();
     }
