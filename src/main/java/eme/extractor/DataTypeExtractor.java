@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IImportDeclaration;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
@@ -60,6 +62,11 @@ public class DataTypeExtractor {
         int arrayCount = Signature.getArrayCount(signature);
         ExtractedDataType dataType = new ExtractedDataType(getFullName(signature, declaringType), arrayCount);
         dataType.setGenericArguments(extractGenericArguments(signature, declaringType));
+        ITypeHierarchy typeHierarchy = declaringType.newSupertypeHierarchy(new NullProgressMonitor());
+        typeHierarchy.getAllInterfaces();
+        for (IType i : typeHierarchy.getAllInterfaces()) {   
+            dataType.addInterface(i.getFullyQualifiedName()); // add interface
+        }
         return dataType;
     }
 

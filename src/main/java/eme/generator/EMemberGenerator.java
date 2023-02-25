@@ -165,7 +165,6 @@ public class EMemberGenerator {
     
     private Boolean isCollection(ExtractedDataType dataType) {
     	String[] dt = TextProperty.DATATYPES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
-    	String[] it = TextProperty.DATATYPE_INTERFACES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
     	String dName = dataType.getFullArrayType();
     	if(Arrays.stream(dt).anyMatch(dName::equals) || dataType.isListType()) {
     		return true;

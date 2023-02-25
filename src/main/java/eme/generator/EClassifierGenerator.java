@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 
+import eme.extractor.code.EClassFile;
+import eme.extractor.code.JavaType;
 import eme.generator.hierarchies.ExternalTypeHierarchy;
 import eme.model.ExtractedClass;
 import eme.model.ExtractedEnum;
@@ -65,10 +67,17 @@ public class EClassifierGenerator {
             memberGenerator.addFields(extractedType, eClass); // add attributes
             memberGenerator.addOperations(extractedType, eClass); // add methods
             addSuperInterfaces(extractedType, eClass); // IMPORTANT: needs to be called after type parameters are built
+            generateEcoreCode(eClass, extractedType);
             System.out.println(eClass.getName());
             System.out.println(eClass.getEAllStructuralFeatures());
         }
         externalTypes.sort();
+    }
+    
+    private void generateEcoreCode(EClass eClass, ExtractedType type) {
+    	JavaType javaType = new EClassFile(eClass, type);
+    	javaType.generateEFile();
+    	
     }
 
     /**

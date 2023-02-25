@@ -1,9 +1,11 @@
 package eme.model.datatypes;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import eme.model.IntermediateModel;
+import eme.properties.TextProperty;
 
 /**
  * Represents a data type in the {@link IntermediateModel}.
@@ -13,6 +15,7 @@ public class ExtractedDataType {
     private final int arrayDimension;
     private String fullTypeName;
     private List<ExtractedDataType> genericArguments;
+    protected final List<String> superInterfaces;
     private String typeName;
     private WildcardStatus wildcardStatus;
 
@@ -25,6 +28,7 @@ public class ExtractedDataType {
      */
     public ExtractedDataType(String fullName, int arrayDimension) {
         this.fullTypeName = fullName;
+        superInterfaces = new LinkedList<>();
         this.arrayDimension = arrayDimension;
         genericArguments = new LinkedList<ExtractedDataType>();
         wildcardStatus = WildcardStatus.NO_WILDCARD;
@@ -126,6 +130,13 @@ public class ExtractedDataType {
      * @return true if it is.
      */
     public boolean isListType() {
+    	String[] it = TextProperty.DATATYPE_INTERFACES_TO_CONVERT_TO_EREFERENCE.getDefaultValue().split(", ");
+			for(String i : superInterfaces) {
+				if(Arrays.stream(it).anyMatch(i::equals) && genericArguments.size() == 1) {
+					return true;
+	    		}
+			} 
+		
         return List.class.getName().equals(fullTypeName) && genericArguments.size() == 1;
     }
 
@@ -169,5 +180,17 @@ public class ExtractedDataType {
         for (int i = 0; i < arrayDimension; i++) { // adjust array names to dimension
             this.fullTypeName += "[]";
         }
+    }
+
+    /**
+     * Adds an interface as super interface.
+     * @param superInterface is the new super interface.
+     */
+    public void addInterface(String superInterface) {
+        superInterfaces.add(superInterface);
+    }
+    
+    public List<String> getInterfaces() {
+    	return superInterfaces;
     }
 }
