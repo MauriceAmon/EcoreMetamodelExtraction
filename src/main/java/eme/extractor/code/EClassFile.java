@@ -33,7 +33,7 @@ public class EClassFile extends JavaType {
 		 try {
 		      File file = new File("e_classes.txt");
 		      file.createNewFile();
-		      FileWriter writer = new FileWriter("filename.txt");
+		      FileWriter writer = new FileWriter("e_classes.txt");
 		      writer.write(output);
 		      writer.close();
 		    } catch (IOException e) {
