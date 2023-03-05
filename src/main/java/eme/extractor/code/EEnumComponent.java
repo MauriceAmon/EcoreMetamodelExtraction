@@ -1,9 +1,9 @@
 package eme.extractor.code;
 
-public class EEnumComponent extends EComponentDecorator {
+public class EEnumComponent extends EComponent {
 	
-	public EEnumComponent(EComponent eComponent) {
-		super(eComponent);
+	public EEnumComponent() {
+
 	}
 
 	@Override

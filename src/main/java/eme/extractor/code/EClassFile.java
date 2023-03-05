@@ -1,5 +1,8 @@
 package eme.extractor.code;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.eclipse.emf.ecore.EClassifier;
@@ -14,8 +17,10 @@ public class EClassFile extends JavaType {
 	
 	private EAttributeDecorator eAttributeDecorator;
 	
-	private ArrayList<String> methodStrings = new ArrayList<>();
+	private EOperationDecorator eOperationDecorator;
 	
+	private String output = "";
+		
 	public EClassFile(EClassifier eClassifier, ExtractedType extractedType) {
 		super(eClassifier, extractedType);
 	}
@@ -24,6 +29,17 @@ public class EClassFile extends JavaType {
 	public String generateEFile() {
 		generateFields();
 		generateMethods();
+		output = eOperationDecorator.generateEComponentText();
+		 try {
+		      File file = new File("e_classes.txt");
+		      file.createNewFile();
+		      FileWriter writer = new FileWriter("filename.txt");
+		      writer.write(output);
+		      writer.close();
+		    } catch (IOException e) {
+		      e.printStackTrace();
+		    }
+		
 		return null;
 	}
 	
@@ -36,7 +52,7 @@ public class EClassFile extends JavaType {
 	}
 	
 	private void generateMethods() {
-		EOperationDecorator eOperationDecorator = new EOperationDecorator(eAttributeDecorator);
+		eOperationDecorator = new EOperationDecorator(eAttributeDecorator);
 		for(ExtractedMethod method : extractedType.getMethods()) {
 			EMethod eMethod = new EMethod(method.getName(), method.getModifier().toString(), method.getReturnType().toString());
 			eMethod.addAllParameters(method.getParameters());
