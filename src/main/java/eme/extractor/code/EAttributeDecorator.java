@@ -1,33 +1,35 @@
 package eme.extractor.code;
 
+import java.util.ArrayList;
+
 public class EAttributeDecorator extends EComponentDecorator {
+	
+	private ArrayList<EAttribute> fieldStrings = new ArrayList<>();
+
 	
 	public EAttributeDecorator(EComponent eComponent) {
 		super(eComponent);
 		// TODO Auto-generated constructor stub
 	}
-
-	private String attributeName;
 	
-	private String attributeDataType;
+	public void addField(EAttribute eAttribute) {
+		fieldStrings.add(eAttribute);
+	}
 	
-	private String attributeModifier;
+	public ArrayList<EAttribute> getFields() {
+		return fieldStrings;
+	}
 
 	@Override
 	public String generateEComponentText() {
-		return attributeModifier + " " + attributeDataType + " " + attributeName + ";" + eComponent.generateEComponentText();
+		String fields = "";
+		for(EAttribute eAttr : fieldStrings) {
+			fields += eAttr.getAttributeModifier() + " " + eAttr.getAttributeDataType() + " " + 
+					eAttr.getAttributeName() + ";" + eComponent.generateEComponentText();
+		}
+		return fields;
 	}
 	
-	public void setAttributeName(String attributeName) {
-		this.attributeName = attributeName;
-	}
-	
-	public void setAttributeDataType(String attributeDataType) {
-		this.attributeDataType = attributeDataType;
-	}
-	
-	public void setAttributeModifiert(String attributeModifier) {
-		this.attributeModifier = attributeModifier;
-	}
+
 
 }

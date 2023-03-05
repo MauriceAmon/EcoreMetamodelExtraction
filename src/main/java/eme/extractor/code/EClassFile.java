@@ -9,26 +9,31 @@ import eme.model.datatypes.ExtractedField;
 
 public class EClassFile extends JavaType {
 	
+	
+	private ArrayList<String> methodStrings = new ArrayList<>();
+	
 	public EClassFile(EClassifier eClassifier, ExtractedType extractedType) {
 		super(eClassifier, extractedType);
 	}
 
 	@Override
 	public String generateEFile() {
-		EComponent eClass = new EClassComponent();
-		for(ExtractedField field : extractedType.getFields()) {
-			EAttributeDecorator eAttribute = new EAttributeDecorator(eClass);
-			eAttribute.setAttributeName(field.getIdentifier());
-			eAttribute.setAttributeDataType(field.getType());
-			eAttribute.setAttributeModifiert(field.getModifier().toString());
-			eClass = eAttribute;
-			field.getIdentifier();
-			field.getModifier();
-			field.getType();
-			
-		}
-		
+		generateFields();
+		generateMethods();
 		return null;
+	}
+	
+	private void generateFields() {
+		EComponent eComponent = new EClassComponent();
+		EAttributeDecorator eAttributeDecorator = new EAttributeDecorator(eComponent);
+		for(ExtractedField field : extractedType.getFields()) {
+			EAttribute eAttribute = new EAttribute(field.getIdentifier(), field.getType(), field.getModifier().toString());
+			eAttributeDecorator.addField(eAttribute);
+		}
+	}
+	
+	private void generateMethods() {
+		EComponent eComponent = new EClassComponent();
 	}
 	
 
