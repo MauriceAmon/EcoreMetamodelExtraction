@@ -12,6 +12,8 @@ public class EClassFile extends JavaType {
 	
 	private EComponent eComponent = new EClassComponent();
 	
+	private EAttributeDecorator eAttributeDecorator;
+	
 	private ArrayList<String> methodStrings = new ArrayList<>();
 	
 	public EClassFile(EClassifier eClassifier, ExtractedType extractedType) {
@@ -26,7 +28,7 @@ public class EClassFile extends JavaType {
 	}
 	
 	private void generateFields() {
-		EAttributeDecorator eAttributeDecorator = new EAttributeDecorator(eComponent);
+		eAttributeDecorator = new EAttributeDecorator(eComponent);
 		for(ExtractedField field : extractedType.getFields()) {
 			EAttribute eAttribute = new EAttribute(field.getIdentifier(), field.getType(), field.getModifier().toString());
 			eAttributeDecorator.addField(eAttribute);
@@ -34,12 +36,11 @@ public class EClassFile extends JavaType {
 	}
 	
 	private void generateMethods() {
+		EOperationDecorator eOperationDecorator = new EOperationDecorator(eAttributeDecorator);
 		for(ExtractedMethod method : extractedType.getMethods()) {
-			method.getModifier();
-			method.getMethodType();
-			method.getName();
-			method.getReturnType();
-			method.getParameters();
+			EMethod eMethod = new EMethod(method.getName(), method.getModifier().toString(), method.getReturnType().toString());
+			eMethod.addAllParameters(method.getParameters());
+			eOperationDecorator.addOperation(eMethod);
 		}
 	}
 	

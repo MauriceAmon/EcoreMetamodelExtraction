@@ -1,6 +1,7 @@
 package eme.extractor.code;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import eme.model.datatypes.ExtractedParameter;
 
@@ -22,6 +23,10 @@ public class EMethod {
 	
 	public void addParameter(ExtractedParameter parameter) {
 		parameters.add(parameter);
+	}
+	
+	public void addAllParameters(List<ExtractedParameter> eParameters) {
+		parameters.addAll(eParameters);
 	}
 	
 	public String getName() {
