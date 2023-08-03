@@ -7,5 +7,4 @@ public class EEnumLiteralDecorator extends EComponent {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

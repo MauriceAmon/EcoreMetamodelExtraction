@@ -13,7 +13,7 @@ public class EMethod {
 	
 	private String name;
 	
-	private ArrayList<ExtractedParameter> parameters;
+	private ArrayList<ExtractedParameter> parameters = new ArrayList<>();
 	
 	public EMethod(String name, String modifier, String returnType) {
 		this.name = name;

@@ -16,7 +16,7 @@ public class EClassComponent extends EComponent {
 
 	@Override
 	public String generateEComponentText() {
-		return "class " + eClassifier.getName() + "{ " + generateEComponentText() + " }";
+		return "class " + eClassifier.getName();
 	}
 
 }
